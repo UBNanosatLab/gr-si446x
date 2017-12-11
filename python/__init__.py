@@ -32,4 +32,5 @@ except ImportError:
 
 # import any pure python here
 from fix_one_field_packet_handler import fix_one_field_packet_handler
+from fix_one_field_packet_creator import fix_one_field_packet_creator
 #

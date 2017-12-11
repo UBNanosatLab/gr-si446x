@@ -31,7 +31,8 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    fix_one_field_packet_handler.py DESTINATION ${GR_PYTHON_DIR}/si446x
+    fix_one_field_packet_handler.py
+    fix_one_field_packet_creator.py DESTINATION ${GR_PYTHON_DIR}/si446x
 )
 
 ########################################################################

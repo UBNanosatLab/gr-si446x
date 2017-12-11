@@ -18,5 +18,6 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    si446x_fix_one_field_packet_handler.xml DESTINATION share/gnuradio/grc/blocks
+    si446x_fix_one_field_packet_handler.xml
+    si446x_fix_one_field_packet_creator.xml DESTINATION share/gnuradio/grc/blocks
 )
