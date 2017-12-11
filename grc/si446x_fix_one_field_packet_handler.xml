@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>fix_one_field_packet_handler</name>
+  <name>Fixed Length Deframer</name>
   <key>si446x_fix_one_field_packet_handler</key>
   <category>[si446x]</category>
   <import>import si446x</import>
-  <make>si446x.fix_one_field_packet_handler($sync, $length, $has_crc, $check_crc, $crc_poly)</make>
+  <make>si446x.fix_one_field_packet_handler($sync, $length, $has_crc.key, $check_crc.key, $crc_poly)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -12,18 +12,18 @@
        * type -->
 
   <param>
-    <name>sync</name>
+    <name>Sync Word (2 bytes)</name>
     <key>sync</key>
     <type>int</type>
   </param>
 
   <param>
-    <name>length</name>
+    <name>Packet Length</name>
     <key>length</key>
     <type>int</type>
   </param>
 
-  <param>
+  <!-- <param>
     <name>has_crc</name>
     <key>has_crc</key>
     <type>bool</type>
@@ -33,29 +33,51 @@
     <name>check_crc</name>
     <key>check_crc</key>
     <type>bool</type>
+  </param> -->
+
+  <param>
+    <name>Has CRC</name>
+    <key>has_crc</key>
+    <type>enum</type>
+    <option>
+      <name>True</name>
+      <key>True</key>
+      <opt>key:True</opt>
+    </option>
+    <option>
+      <name>False</name>
+      <key>False</key>
+      <opt>key:False</opt>
+    </option>
   </param>
 
   <param>
-    <name>crc_poly</name>
+    <name>Check CRC</name>
+    <key>check_crc</key>
+    <type>enum</type>
+    <option>
+      <name>True</name>
+      <key>True</key>
+      <opt>key:True</opt>
+    </option>
+    <option>
+      <name>False</name>
+      <key>False</key>
+      <opt>key:False</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>CRC Polynomial</name>
     <key>crc_poly</key>
     <type>int</type>
   </param>
 
-  <!-- Make one 'sink' node per input. Sub-nodes:
-       * name (an identifier for the GUI)
-       * type
-       * vlen
-       * optional (set to 1 for optional inputs) -->
   <sink>
     <name>in</name>
     <type>byte</type>
   </sink>
 
-  <!-- Make one 'source' node per output. Sub-nodes:
-       * name (an identifier for the GUI)
-       * type
-       * vlen
-       * optional (set to 1 for optional inputs) -->
   <source>
     <name>out</name>
     <type>message</type>
