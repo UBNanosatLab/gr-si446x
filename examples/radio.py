@@ -101,8 +101,10 @@ def main():
     elif (sys.argv[1] == 'tx' and len(sys.argv) == 3):
         sleep(1)
         for i in range(int(sys.argv[2])):
-            print(str(i))
-            radio.sendPacket('KC2QOL')
+            print str(i)
+            data = 'KC2QOL '
+            radio.sendPacket(data)
+            print 'Sent ' + str(len(data)) + ' byte(s)'
             sleep(1)
 
         # Attempt to receive, this way GNU Radio won't crash on socket closing
