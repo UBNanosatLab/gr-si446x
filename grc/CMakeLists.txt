@@ -19,5 +19,7 @@
 
 install(FILES
     si446x_fix_one_field_packet_handler.xml
-    si446x_fix_one_field_packet_creator.xml DESTINATION share/gnuradio/grc/blocks
+    si446x_fix_one_field_packet_creator.xml
+    si446x_var_len_packet_handler.xml
+    si446x_var_len_packet_creator.xml DESTINATION share/gnuradio/grc/blocks
 )

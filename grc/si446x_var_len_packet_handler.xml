@@ -1,20 +1,14 @@
 <?xml version="1.0"?>
 <block>
-  <name>Fixed Length Deframer</name>
-  <key>si446x_fix_one_field_packet_handler</key>
+  <name>Variable Length Packet Handler</name>
+  <key>si446x_var_len_packet_handler</key>
   <category>[si446x]</category>
   <import>import si446x</import>
-  <make>si446x.fix_one_field_packet_handler($sync, $length, $has_crc.key, $check_crc.key, $crc_poly)</make>
+  <make>si446x.var_len_packet_handler($sync, $has_crc.key, $check_crc.key, $crc_poly)</make>
 
   <param>
     <name>Sync Word (2 bytes)</name>
     <key>sync</key>
-    <type>int</type>
-  </param>
-
-  <param>
-    <name>Packet Length</name>
-    <key>length</key>
     <type>int</type>
   </param>
 
@@ -65,4 +59,5 @@
     <name>out</name>
     <type>message</type>
   </source>
+
 </block>
