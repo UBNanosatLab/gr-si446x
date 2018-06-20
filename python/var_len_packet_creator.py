@@ -70,6 +70,8 @@ class var_len_packet_creator(gr.basic_block):
             data.append((crc >> 8) & 0xff)
             data.append(crc & 0xff)
 
+        data.append(0x00)
+
         buff = array.array('B', numpy.unpackbits(numpy.array(data, dtype=numpy.uint8)))
 
         self.message_port_pub(pmt.intern('out'), pmt.cons(pmt.PMT_NIL, pmt.init_u8vector(len(buff), buff)))

@@ -95,18 +95,15 @@ class var_len_packet_handler(gr.sync_block):
             elif (self.state == self.STATE_SYNC):
                 self.reg = ((self.reg << 1) & 0xFFFF) | x
                 if (self.reg == self.sync):
-                    print 'Got sync: ' + hex(self.reg)
                     self.state = self.STATE_LEN
                     self.index = 0
                     self.reg = 0
 
             elif (self.state == self.STATE_LEN):
                 self.reg = (self.reg << 1) | x
-                print('RX packet len bit: ', x)
                 self.index += 1
                 if (self.index == 8):
                     self.length = self.reg
-                    print 'RX packet len: ' + hex(self.length)
                     self.state = self.STATE_PAYLOAD
                     self.index = 0
                     self.buf = numpy.zeros(self.length * 8 +
