@@ -71,6 +71,9 @@ class var_len_packet_creator(gr.basic_block):
             data.append(crc & 0xff)
 
         data.append(0x00)
+        data.append(0x00)
+        data.append(0x00)
+        data.append(0x00)
 
         buff = array.array('B', numpy.unpackbits(numpy.array(data, dtype=numpy.uint8)))
 
