@@ -22,17 +22,16 @@
 This is the GNU Radio SI446X module. Place your Python package
 description here (python/__init__.py).
 '''
+from __future__ import unicode_literals
 
 # import swig generated symbols into the si446x namespace
 try:
-	# this might fail if the module is python-only
-	from si446x_swig import *
+    # this might fail if the module is python-only
+    from .si446x_swig import *
 except ImportError:
-	pass
+    pass
 
 # import any pure python here
-from fix_one_field_packet_handler import fix_one_field_packet_handler
-from fix_one_field_packet_creator import fix_one_field_packet_creator
-from var_len_packet_handler import var_len_packet_handler
-from var_len_packet_creator import var_len_packet_creator
+from .var_len_packet_creator import var_len_packet_creator
+from .var_len_packet_handler import var_len_packet_handler
 #

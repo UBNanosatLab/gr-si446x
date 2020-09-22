@@ -1,0 +1,38 @@
+id: si446x_var_len_packet_handler
+label: Variable Length Packet Handler
+category: '[si446x]'
+
+parameters:
+-   id: sync
+    label: Sync Word (2 bytes)
+    dtype: int
+-   id: has_crc
+    label: Has CRC
+    dtype: enum
+    options: ['True', 'False']
+    option_attributes:
+        key: ['True', 'False']
+-   id: check_crc
+    label: Check CRC
+    dtype: enum
+    options: ['True', 'False']
+    option_attributes:
+        key: ['True', 'False']
+-   id: crc_poly
+    label: CRC Polynomial
+    dtype: int
+
+inputs:
+-   domain: stream
+    dtype: byte
+
+outputs:
+-   domain: message
+    id: out
+
+templates:
+    imports: import si446x
+    make: si446x.var_len_packet_handler(${sync}, ${has_crc.key}, ${check_crc.key},
+        ${crc_poly})
+
+file_format: 1

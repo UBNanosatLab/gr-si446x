@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright 2017 <+YOU OR YOUR COMPANY+>.
+# Copyright 2019 Grant Iraci.
 #
 # This is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,13 +19,14 @@
 # Boston, MA 02110-1301, USA.
 #
 
+
 import numpy
 from gnuradio import gr
 import pmt
 import array
 
-class var_len_packet_handler(gr.sync_block):
-
+class var_len_packet_handler(gr.basic_block):
+    
     STATE_SYNC = 0
     STATE_LEN = 1
     STATE_PAYLOAD = 2
@@ -51,10 +52,10 @@ class var_len_packet_handler(gr.sync_block):
         for x in data:
             for _ in range(0, 8):
                  if(((reg & 0x8000) >> 8) ^ (x & 0x80)):
-                     reg = ((reg << 1) ^ self.crc_poly ) & 0xffff ;
+                     reg = ((reg << 1) ^ self.crc_poly ) & 0xffff
                  else:
-                     reg = (reg << 1) & 0xffff;
-                 x = (x << 1) & 0xff;
+                     reg = (reg << 1) & 0xffff
+                 x = (x << 1) & 0xff
         return reg
 
     def send_message(self, msg):
