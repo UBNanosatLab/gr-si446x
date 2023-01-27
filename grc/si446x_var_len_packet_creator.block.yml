@@ -1,6 +1,6 @@
-id: var_len_packet_creator
-label: Variable Length Framer
-category: '[si446x]'
+id: si446x_var_len_packet_creator
+label: Si446x Packet Creator
+category: '[Si446x]'
 
 parameters:
 -   id: preamble_bytes

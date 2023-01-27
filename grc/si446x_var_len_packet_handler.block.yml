@@ -1,6 +1,10 @@
 id: si446x_var_len_packet_handler
-label: Variable Length Packet Handler
-category: '[si446x]'
+label: Si446x Packet Handler
+category: '[Si446x]'
+
+templates:
+  imports: from gnuradio import si446x
+  make: si446x.var_len_packet_handler(${sync}, ${has_crc.key}, ${check_crc.key}, ${crc_poly})
 
 parameters:
 -   id: sync
@@ -29,10 +33,5 @@ inputs:
 outputs:
 -   domain: message
     id: out
-
-templates:
-    imports: import si446x
-    make: si446x.var_len_packet_handler(${sync}, ${has_crc.key}, ${check_crc.key},
-        ${crc_poly})
 
 file_format: 1

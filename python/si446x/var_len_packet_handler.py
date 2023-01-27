@@ -1,38 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright 2019 Grant Iraci.
+# Copyright 2023 Grant Iraci.
 #
-# This is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 3, or (at your option)
-# any later version.
-#
-# This software is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this software; see the file COPYING.  If not, write to
-# the Free Software Foundation, Inc., 51 Franklin Street,
-# Boston, MA 02110-1301, USA.
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
 
 
 import numpy
 from gnuradio import gr
 import pmt
-import array
 
 class var_len_packet_handler(gr.basic_block):
-    
+
     STATE_SYNC = 0
     STATE_LEN = 1
     STATE_PAYLOAD = 2
 
-    def __init__(self, sync, has_crc, check_crc, crc_poly=0x8005):
-        gr.sync_block.__init__(self,
+    def __init__(self, sync, has_crc=True, check_crc=True, crc_poly=0x8005):
+        gr.basic_block.__init__(self,
             name="var_len_packet_handler",
             in_sig=[numpy.uint8],
             out_sig=None)
@@ -47,23 +33,11 @@ class var_len_packet_handler(gr.basic_block):
         self.crc_poly = crc_poly
         self.state = self.STATE_SYNC
 
-    def crc(self, data):
-        reg = 0xFFFF
-        for x in data:
-            for _ in range(0, 8):
-                 if(((reg & 0x8000) >> 8) ^ (x & 0x80)):
-                     reg = ((reg << 1) ^ self.crc_poly ) & 0xffff
-                 else:
-                     reg = (reg << 1) & 0xffff
-                 x = (x << 1) & 0xff
-        return reg
+    def forecast(self, noutput_items, ninputs):
+        ninput_items_required = [noutput_items] * ninputs
+        return ninput_items_required
 
-    def send_message(self, msg):
-        self.message_port_pub(pmt.intern('out'),
-            pmt.cons(pmt.PMT_NIL, pmt.init_u8vector(len(msg), msg)))
-
-    def work(self, input_items, output_items):
-
+    def general_work(self, input_items, output_items):
         in0 = input_items[0]
 
         for x in in0:
@@ -110,4 +84,6 @@ class var_len_packet_handler(gr.basic_block):
                     self.buf = numpy.zeros(self.length * 8 +
                                 (16 if self.has_crc else 0), dtype=numpy.uint8)
 
-        return len(input_items[0])
+        self.consume_each(len(in0))
+        return len(in0)
+
