@@ -10,6 +10,7 @@
 import numpy
 from gnuradio import gr
 import pmt
+import array
 
 class var_len_packet_handler(gr.basic_block):
 
@@ -32,6 +33,21 @@ class var_len_packet_handler(gr.basic_block):
         self.check_crc = check_crc
         self.crc_poly = crc_poly
         self.state = self.STATE_SYNC
+
+    def crc(self, data):
+        reg = 0xFFFF
+        for x in data:
+            for _ in range(0, 8):
+                 if(((reg & 0x8000) >> 8) ^ (x & 0x80)):
+                     reg = ((reg << 1) ^ self.crc_poly ) & 0xffff
+                 else:
+                     reg = (reg << 1) & 0xffff
+                 x = (x << 1) & 0xff
+        return reg
+
+    def send_message(self, msg):
+        self.message_port_pub(pmt.intern('out'),
+            pmt.cons(pmt.PMT_NIL, pmt.init_u8vector(len(msg), msg)))
 
     def forecast(self, noutput_items, ninputs):
         ninput_items_required = [noutput_items] * ninputs
